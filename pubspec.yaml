@@ -1,6 +1,10 @@
 name: yuninet_app
 description: A modern social platform app for youth connection and empowerment.
+<<<<<<< HEAD
 publish_to: 'none' # This means the app won't be published to pub.dev
+=======
+publish_to: 'none'
+>>>>>>> 2409b117d0e42729eedef718a0b9126450d2f238
 
 version: 1.0.0+1
 
@@ -37,7 +41,11 @@ dependencies:
   # State Management
   provider: ^6.1.2
 
+<<<<<<< HEAD
   # AI & Environment
+=======
+  # AI & Env
+>>>>>>> 2409b117d0e42729eedef718a0b9126450d2f238
   flutter_dotenv: ^5.1.0
 
 dev_dependencies:
@@ -52,7 +60,11 @@ flutter:
     - assets/images/logo.png
     - assets/icons/icon.png
     - assets/images/default_user.png
+<<<<<<< HEAD
     - assets/.env
+=======
+    - .env
+>>>>>>> 2409b117d0e42729eedef718a0b9126450d2f238
 
 flutter_launcher_icons:
   android: true
