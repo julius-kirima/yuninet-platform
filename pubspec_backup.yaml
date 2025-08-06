@@ -1,0 +1,51 @@
+name: yuninet_app
+description: A new Flutter project for Yuninet
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & Fonts
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.1.0
+
+  # Backend (Supabase)
+  supabase_flutter: ^1.10.25
+
+  # Localization & Date Formatting
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+
+  # Auth & Notifications
+  google_sign_in: ^6.2.1
+  fluttertoast: ^8.2.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/logo.png
+
+  # Enables Dart code generation for localization
+  generate: true
+
+  # Localization setup
+  localizations:
+    arb-dir: lib/l10n
+    template-arb-file: app_en.arb
+    output-localization-file: app_localizations.dart
+    output-class: AppLocalizations
+    synthetic-package: true # ✅ Set to true if you're importing from flutter_gen
+    preferred-supported-locales:
+      - en
+      - sw

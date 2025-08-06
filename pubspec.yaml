@@ -1,0 +1,61 @@
+name: yuninet_app
+description: A modern social platform app for youth connection and empowerment.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & Design
+  google_fonts: ^6.2.1
+  fluttertoast: ^8.2.8
+  cached_network_image: ^3.3.1
+
+  # Media & Image Handling
+  video_player: ^2.9.1
+  chewie: ^1.7.1
+  photo_view: ^0.14.0
+  file_picker: ^6.2.0
+  image_picker: ^1.0.7
+
+  # Linking & Sharing
+  url_launcher: ^6.2.6
+  share_plus: ^11.0.0
+
+  # Backend & APIs
+  supabase_flutter: ^2.7.0
+  http: ^1.2.1
+  uuid: ^4.2.2
+  mime: ^1.0.4
+  cloud_firestore: ^5.6.12
+
+  # State Management
+  provider: ^6.1.2
+
+  # AI & Env
+  flutter_dotenv: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/logo.png
+    - assets/icons/icon.png
+    - assets/images/default_user.png
+    - .env
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/icon.png"
+  remove_alpha_ios: true
