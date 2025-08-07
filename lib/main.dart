@@ -6,28 +6,17 @@ import 'routes/app_routes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-<<<<<<< HEAD
   // Load environment variables from assets/.env
   await dotenv.load(fileName: "assets/.env");
 
-  // Debug print (optional)
+  // Optional debug print (can be removed in production)
   print("🔐 Supabase URL: ${dotenv.env['SUPABASE_URL']}");
   print("🔐 Supabase Key: ${dotenv.env['SUPABASE_ANON_KEY']}");
 
-  // Initialize Supabase using .env variables
+  // Initialize Supabase using environment variables
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
-=======
-  // Load environment variables (.env)
-  await dotenv.load(fileName: ".env");
-
-  // Initialize Supabase
-  await Supabase.initialize(
-    url: 'https://cwfjkjwasxkzgbnxhgda.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3Zmprandhc3hremdibnhoZ2RhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI4MjcwMzUsImV4cCI6MjA2ODQwMzAzNX0.3fuljkmtBkBkSb5QiGlfvlrw6KzjVuKnAOkuk3PZQMM',
->>>>>>> 2409b117d0e42729eedef718a0b9126450d2f238
   );
 
   runApp(const YuninetApp());
