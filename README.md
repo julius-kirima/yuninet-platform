@@ -27,9 +27,9 @@ Yuninet is a Flutter-based platform that enables students to:
 ## 👤 About the Founder
 
 **Julius Kirima**  
-Founder & CEO, Yuninet Platform  
-A passionate student innovator on a mission to empower schools and youth through digital technology.  
-Julius is currently pursuing ICT Level 6 (CBET) at Kiirua Technical Training Institute to sharpen his development and system analysis skills.
+Founder & CEO, Yuninet Platform
+
+A passionate student innovator on a mission to empower youth and schools through digital technology.
 
 > "I'm not just building an app — I'm building a future where students lead with technology."
 
@@ -57,3 +57,4 @@ flutter pub get
 
 # Run the app
 flutter run
+
