@@ -1,3 +1,20 @@
+# Ensure docs folder exists
+if (-not (Test-Path -Path "docs")) {
+    New-Item -ItemType Directory -Path "docs" | Out-Null
+}
+
+# Contribution_Guide.md
+@"
+# Contribution Guide
+
+## How to Contribute
+
+- Fork the repository on GitHub.
+- Create a feature branch: `git checkout -b feature-name`
+- Make your changes and commit with clear messages.
+- Push to your fork: `git push origin feature-name`
+- Open a Pull Request to the main repository.
+- Follow the code style and testing guidelines.
 
 ## Reporting Issues
 
@@ -6,9 +23,9 @@
 ## Code of Conduct
 
 Please respect the [Code of Conduct](CODE_OF_CONDUCT.md).
-
 "@ | Out-File -Encoding UTF8 docs\Contribution_Guide.md
 
+# FAQ.md
 @"
 # FAQ
 
@@ -31,9 +48,9 @@ Open an issue on GitHub in the Issues tab.
 ## Where can I find the roadmap?
 
 See the [Roadmap](ROADMAP.md) document.
-
 "@ | Out-File -Encoding UTF8 docs\FAQ.md
 
+# ROADMAP.md
 @"
 # Roadmap
 
@@ -55,12 +72,10 @@ See the [Roadmap](ROADMAP.md) document.
 ## How to Influence the Roadmap
 
 Community feedback is welcome! Please open issues or PRs with your ideas.
-
 "@ | Out-File -Encoding UTF8 docs\ROADMAP.md
 
 Write-Host "All documentation files created successfully in the docs/ folder.`n"
-Write-Host "Run the following commands to commit and push:"
-Write-Host "git add docs"
-Write-Host "git commit -m `"Add full documentation with detailed content`""
-Write-Host "git push origin main"
-'@ | Out-File -Encoding UTF8 create_docs.ps1
+Write-Host "Run the following commands to commit and push your changes to GitHub:"
+Write-Host "`n  git add docs"
+Write-Host '  git commit -m "Add full documentation with detailed content"'
+Write-Host "  git push origin main"
