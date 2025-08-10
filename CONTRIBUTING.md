@@ -12,3 +12,4 @@ Thank you for your interest in contributing! Here’s how to get started:
 Please keep your code clean and add tests if possible.
 
 If you have any questions, feel free to open an issue or contact Julius Kirima.
+   NB: EMAIL PROVIDED UNDER CODE OF CONDUCT 
