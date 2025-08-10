@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'routes/app_routes.dart';
+import 'services/notification_service.dart';
+import 'services/realtime_listener.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,15 +11,21 @@ Future<void> main() async {
   // Load environment variables from assets/.env
   await dotenv.load(fileName: "assets/.env");
 
-  // Optional debug print (can be removed in production)
+  // Debug logs (optional, remove in production)
   print("🔐 Supabase URL: ${dotenv.env['SUPABASE_URL']}");
   print("🔐 Supabase Key: ${dotenv.env['SUPABASE_ANON_KEY']}");
 
-  // Initialize Supabase using environment variables
+  // Initialize Supabase
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
+
+  // Initialize local notifications
+  await NotificationService().init();
+
+  // Start listening to real-time notifications from Supabase
+  startNotificationListener();
 
   runApp(const YuninetApp());
 }
