@@ -1,13 +1,28 @@
-﻿**Contribution Guide**
+﻿Contribution Guide
 
-We welcome contributions from the community.
+Getting Started
 
-Fork the repository and create a new branch for your feature or fix.  
+We welcome contributions! Please follow these steps:
 
-Follow the code style and best practices used in the project.  
+Fork the repository on GitHub.
 
-Write tests for new features or bug fixes.  
+Clone your fork locally.
 
-Submit a pull request with a clear description of your changes.
+Create a new branch for your feature or bugfix.
 
-Please report bugs or feature requests via GitHub Issues.
+Commit your changes with clear messages.
+
+Push the branch and create a pull request.
+
+Coding Standards
+
+Follow Dart and Flutter style guides.
+
+Write clean, readable, and well-documented code.
+
+Include tests for new features or bug fixes.
+
+Reporting Issues
+
+Use GitHub Issues to report bugs or request features. Please provide clear descriptions and steps to reproduce.
+

@@ -1,13 +1,26 @@
-﻿**API**
+﻿API
 
-The Yuninet Platform exposes RESTful API endpoints to enable integration with external systems.
+Overview
 
-Authentication API for secure login and user management.  
+The backend API provides endpoints for authentication, data retrieval, and updates. It is built using Node.js/Express or Firebase Functions, depending on deployment preferences.
 
-Student and Teacher APIs for managing profiles, classes, and interactions.  
+Endpoints
 
-Notification API for sending real-time updates.  
+POST /auth/login — Authenticate users
 
-Data synchronization API for keeping client apps up to date.
+POST /auth/register — Register new users
 
-Full API documentation and example requests will be added here.
+GET /posts — Retrieve posts feed
+
+POST /posts — Create new post
+
+GET /users/{id} — Retrieve user profile information
+
+Authentication
+
+Uses JWT tokens for session management. All protected endpoints require a valid token in the Authorization header.
+
+Error Handling
+
+Standard HTTP status codes are used to indicate success or failure. Error responses include descriptive messages.
+

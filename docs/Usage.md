@@ -1,11 +1,22 @@
-﻿**Usage**
+﻿Usage
 
-This section explains how to use the Yuninet Platform application for students, teachers, and administrators.
+Launching the App
 
-Students can connect with peers, join study groups, and access academic resources.  
+After setup, run flutter run to launch the app on your connected device or emulator. The app supports Android and iOS platforms.
 
-Teachers can manage classes, post announcements, and interact with students.  
+Features Overview
 
-Administrators can monitor platform activity and handle user management.
+User registration and secure login
 
-For detailed steps, please refer to the in-app tutorial or contact support.
+Academic and social networking functionalities
+
+Real-time notifications and messaging
+
+Profile management and content sharing
+
+Tips
+
+Use an emulator with Google Play services enabled for full functionality.
+
+For production builds, configure backend API endpoints in lib/config.dart.
+
