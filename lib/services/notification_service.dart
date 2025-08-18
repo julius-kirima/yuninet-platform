@@ -1,6 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class NotificationService {
+  // Singleton instance
   static final NotificationService _instance = NotificationService._internal();
   factory NotificationService() => _instance;
 
@@ -9,12 +11,16 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  /// Initialize local notifications for Android (and iOS if needed)
+  final supabase = Supabase.instance.client;
+
+  // User preferences cache
+  Map<String, bool> _userPreferences = {};
+
+  /// Initialize local notifications and start listening to Supabase notifications
   Future<void> init() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    // iOS initialization (optional but recommended for cross-platform)
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
       requestSoundPermission: true,
@@ -29,14 +35,44 @@ class NotificationService {
     );
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    // Load user preferences
+    await fetchUserPreferences();
+
+    // Note: Real-time listening will be handled in your realtime_listener.dart
   }
 
-  /// Display a local notification with [title] and [body]
-  Future<void> showNotification(String title, String body) async {
+  /// Request iOS/macOS notification permissions
+  Future<void> requestPermissions() async {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+  }
+
+  /// Show a local notification
+  Future<void> showNotification(
+    String title,
+    String body, {
+    int id = 0,
+  }) async {
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-      'yuninet_channel_id', // Unique channel ID
-      'Yuninet Notifications', // Channel name
+      'yuninet_channel_id',
+      'Yuninet Notifications',
       channelDescription: 'This channel is used for Yuninet app notifications.',
       importance: Importance.max,
       priority: Priority.high,
@@ -51,10 +87,57 @@ class NotificationService {
     );
 
     await flutterLocalNotificationsPlugin.show(
-      0, // Notification ID
+      id,
       title,
       body,
       platformDetails,
     );
+  }
+
+  /// Cancel a specific notification
+  Future<void> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  /// Cancel all notifications
+  Future<void> cancelAllNotifications() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  /// Fetch user preferences from Supabase
+  Future<void> fetchUserPreferences() async {
+    final userId = supabase.auth.currentUser?.id;
+    if (userId == null) return;
+
+    try {
+      final prefs = await supabase
+          .from('notification_preferences')
+          .select()
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (prefs != null) {
+        _userPreferences = {
+          'like': prefs['like'] ?? true,
+          'comment': prefs['comment'] ?? true,
+          'share': prefs['share'] ?? true,
+          'follow': prefs['follow'] ?? true,
+          'unfollow': prefs['unfollow'] ?? false,
+          'chat': prefs['chat'] ?? true,
+          'post': prefs['post'] ?? true,
+          'push': prefs['push'] ?? true,
+          'email': prefs['email'] ?? false,
+        };
+      }
+    } catch (e) {
+      _userPreferences = {}; // fallback: all enabled
+    }
+  }
+
+  /// Public method to get preference for a given notification type
+  Future<bool> getUserPreference(String type) async {
+    // Refresh preferences from Supabase
+    await fetchUserPreferences();
+    return _userPreferences[type] ?? true;
   }
 }

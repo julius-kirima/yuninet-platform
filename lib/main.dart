@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,7 +12,7 @@ Future<void> main() async {
   // Load environment variables from assets/.env
   await dotenv.load(fileName: "assets/.env");
 
-  // Debug logs (optional, remove in production)
+  // Debug logs (remove in production)
   print("🔐 Supabase URL: ${dotenv.env['SUPABASE_URL']}");
   print("🔐 Supabase Key: ${dotenv.env['SUPABASE_ANON_KEY']}");
 
@@ -21,10 +22,19 @@ Future<void> main() async {
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
-  // Initialize local notifications
-  await NotificationService().init();
+  // Initialize notification service
+  final notificationService = NotificationService();
+  await notificationService.init();
 
-  // Start listening to real-time notifications from Supabase
+  // Request permissions on mobile platforms
+  if (!kIsWeb) {
+    await notificationService.requestPermissions();
+  } else {
+    // Request browser notification permission on Web
+    await notificationService.requestPermissions();
+  }
+
+  // Start real-time notifications listener
   startNotificationListener();
 
   runApp(const YuninetApp());

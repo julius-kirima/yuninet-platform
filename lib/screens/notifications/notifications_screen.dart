@@ -1,6 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// Model class for notifications
+class AppNotification {
+  final int id;
+  final String type; // like, comment, share, follow, unfollow
+  final String title;
+  final String body;
+  final DateTime createdAt;
+
+  AppNotification({
+    required this.id,
+    required this.type,
+    required this.title,
+    required this.body,
+    required this.createdAt,
+  });
+
+  factory AppNotification.fromMap(Map<String, dynamic> map) {
+    return AppNotification(
+      id: map['id'] as int,
+      type: map['type'] as String,
+      title: map['title'] ?? '',
+      body: map['body'] ?? '',
+      createdAt: DateTime.parse(map['created_at']),
+    );
+  }
+
+  IconData get icon {
+    switch (type) {
+      case 'like':
+        return Icons.favorite;
+      case 'comment':
+        return Icons.comment;
+      case 'share':
+        return Icons.share;
+      case 'follow':
+        return Icons.person_add;
+      case 'unfollow':
+        return Icons.person_remove;
+      default:
+        return Icons.notifications;
+    }
+  }
+
+  String get timeAgo {
+    final now = DateTime.now();
+    final diff = now.difference(createdAt);
+
+    if (diff.inMinutes < 1) return "just now";
+    if (diff.inMinutes < 60) return "${diff.inMinutes}m ago";
+    if (diff.inHours < 24) return "${diff.inHours}h ago";
+    if (diff.inDays < 7) return "${diff.inDays}d ago";
+    return DateFormat('yMMMd').format(createdAt);
+  }
+}
+
+/// Notifications screen UI with Supabase integration and settings
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
 
@@ -11,10 +68,13 @@ class NotificationsScreen extends StatefulWidget {
 class _NotificationsScreenState extends State<NotificationsScreen> {
   final supabase = Supabase.instance.client;
   late final Stream<List<Map<String, dynamic>>> _notificationsStream;
+  Map<String, bool> _userPreferences = {};
+  bool _loadingPrefs = true;
 
   @override
   void initState() {
     super.initState();
+    _fetchUserPreferences();
 
     // Stream notifications in real time from Supabase
     _notificationsStream = supabase
@@ -22,8 +82,56 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         .stream(primaryKey: ['id']).order('created_at', ascending: false);
   }
 
+  /// Fetch user's notification preferences
+  Future<void> _fetchUserPreferences() async {
+    final userId = supabase.auth.currentUser?.id;
+    if (userId == null) return;
+
+    try {
+      final prefs = await supabase
+          .from('notification_preferences')
+          .select()
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (prefs != null) {
+        setState(() {
+          _userPreferences = {
+            'like': prefs['like'] ?? true,
+            'comment': prefs['comment'] ?? true,
+            'share': prefs['share'] ?? true,
+            'follow': prefs['follow'] ?? true,
+            'unfollow': prefs['unfollow'] ?? false,
+            'chat': prefs['chat'] ?? true,
+            'post': prefs['post'] ?? true,
+            'push': prefs['push'] ?? true,
+            'email': prefs['email'] ?? false,
+          };
+        });
+      }
+    } catch (e) {
+      debugPrint("Error fetching notification preferences: $e");
+    }
+
+    setState(() {
+      _loadingPrefs = false;
+    });
+  }
+
+  /// Check if a notification type is enabled
+  bool _isEnabled(String type) {
+    if (_userPreferences.isEmpty) return true;
+    return _userPreferences[type] ?? true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_loadingPrefs) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text('Notifications')),
       body: StreamBuilder<List<Map<String, dynamic>>>(
@@ -33,22 +141,60 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No notifications yet'));
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
           }
 
-          final notifications = snapshot.data!;
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(
+              child: Text(
+                'No notifications yet 👀',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            );
+          }
 
-          return ListView.builder(
+          final notifications = snapshot.data!
+              .map((map) => AppNotification.fromMap(map))
+              .where((notif) => _isEnabled(notif.type))
+              .toList();
+
+          if (notifications.isEmpty) {
+            return const Center(
+              child: Text(
+                'All notifications are disabled in your settings.',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            );
+          }
+
+          return ListView.separated(
+            padding: const EdgeInsets.all(8),
             itemCount: notifications.length,
+            separatorBuilder: (_, __) => const Divider(height: 1),
             itemBuilder: (_, index) {
-              final notification = notifications[index];
+              final notif = notifications[index];
               return ListTile(
-                leading: Icon(_getNotificationIcon(notification['type'])),
-                title: Text(notification['title'] ?? ''),
-                subtitle: Text(notification['body'] ?? ''),
+                leading: CircleAvatar(
+                  backgroundColor:
+                      Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                  child:
+                      Icon(notif.icon, color: Theme.of(context).primaryColor),
+                ),
+                title: Text(
+                  notif.title,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text("${notif.body} • ${notif.timeAgo}"),
                 onTap: () {
-                  // Navigate to the related content if needed
+                  debugPrint(
+                      "Tapped notification ${notif.id} of type ${notif.type}");
+                  // TODO: navigate based on type (post, profile, etc.)
                 },
               );
             },
@@ -56,20 +202,5 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         },
       ),
     );
-  }
-
-  IconData _getNotificationIcon(String? type) {
-    switch (type) {
-      case 'like':
-        return Icons.favorite;
-      case 'comment':
-        return Icons.comment;
-      case 'share':
-        return Icons.share;
-      case 'follow':
-        return Icons.person_add;
-      default:
-        return Icons.notifications;
-    }
   }
 }
