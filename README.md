@@ -47,7 +47,7 @@ If you are contributing, please clone, pull, and push with care.
 
 ```bash
 # Clone the repository
-git clone https://github.com/julius718-tech/yuninet-platform.git
+git clone https://github.com/julius-kirima/yuninet-platform.git
 
 # Navigate to the project folder
 cd yuninet-platform
