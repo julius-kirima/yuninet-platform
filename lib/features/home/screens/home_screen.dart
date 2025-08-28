@@ -5,8 +5,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:video_player/video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:yuninet_app/features/ai/ai_screen.dart';
-import '../../../../routes/app_routes.dart';
+
+import 'package:yuninet_app/features/ai/screens/ai_screen.dart';
+import 'package:yuninet_app/screens/smart_hub_screen.dart';
+import 'package:yuninet_app/routes/app_routes.dart'; // ✅ fixed import
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  // 🔹 Fetch posts from Supabase
   Future<void> _fetchPosts() async {
     try {
       final response = await supabase
@@ -55,18 +58,16 @@ class _HomeScreenState extends State<HomeScreen> {
       debugPrint('Error fetching posts: $e');
     } finally {
       if (mounted) {
-        setState(() {
-          _loading = false;
-        });
+        setState(() => _loading = false);
       }
     }
   }
 
+  // 🔹 Initialize video players
   void _initVideoControllers() {
     _videoControllers = _posts
         .map((post) {
-          final type = post['type'];
-          if (type == 'video') {
+          if (post['type'] == 'video') {
             return VideoPlayerController.networkUrl(Uri.parse(post['file_url']))
               ..initialize().then((_) => setState(() {}));
           }
@@ -80,18 +81,15 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // 🔹 Handle video page change
   void _onPageChanged(int index) {
     setState(() => _currentPageIndex = index);
-
     for (var i = 0; i < _videoControllers.length; i++) {
-      if (i == index) {
-        _videoControllers[i].play();
-      } else {
-        _videoControllers[i].pause();
-      }
+      i == index ? _videoControllers[i].play() : _videoControllers[i].pause();
     }
   }
 
+  // 🔹 Sign out
   Future<void> _signOut() async {
     await supabase.auth.signOut();
     if (mounted) {
@@ -99,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // 🔹 Build post types
   Widget _buildPost(Map<String, dynamic> post, int index) {
     final type = post['type'] ?? 'text';
     final content = post['content'];
@@ -211,6 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // 🔹 Overlay actions (like, comment, share)
   Widget _buildOverlay(Map<String, dynamic> post) {
     final postId = post['id']?.toString() ?? '';
     final url = post['file_url'];
@@ -269,9 +269,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // 🔹 Switch between bottom navigation tabs
   Widget _buildMainBody() {
     switch (_navIndex) {
-      case 0:
+      case 0: // Home
         return _loading
             ? const Center(child: CircularProgressIndicator())
             : PageView.builder(
@@ -283,11 +284,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   return _buildPost(_posts[index], index);
                 },
               );
-      case 1:
+      case 1: // Chat
         return const Center(
           child: Text("Chat", style: TextStyle(color: Colors.white)),
         );
-      case 2:
+      case 2: // Create Post
         Future.microtask(() {
           if (mounted) {
             Navigator.pushNamed(context, AppRoutes.createPost);
@@ -295,9 +296,11 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         });
         return const SizedBox();
-      case 3:
-        return const AIScreen(); // ✅ AI Screen
-      case 4:
+      case 3: // AI Screen
+        return const AIScreen();
+      case 4: // Smart Hub
+        return const SmartHubScreen(); // ✅ now works
+      case 5: // Profile
         Future.microtask(() {
           if (mounted) {
             Navigator.pushNamed(context, AppRoutes.profile);
@@ -332,6 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         iconSize: 28,
+        type: BottomNavigationBarType.fixed, // ✅ supports 6 items
         onTap: (index) => setState(() => _navIndex = index),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -340,6 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.add_circle, size: 48), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.smart_toy), label: 'AI'),
+          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'SmartHub'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline), label: 'Profile'),
         ],

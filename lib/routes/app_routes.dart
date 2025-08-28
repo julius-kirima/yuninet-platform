@@ -23,7 +23,10 @@ import '../screens/notifications/notifications_screen.dart';
 import '../screens/profile/profile_screen.dart';
 
 // 🤖 AI Assistant Screen
-import '../features/ai/screens/ai_screen.dart'; // ✅ Ensure file exists
+import '../features/ai/screens/ai_screen.dart';
+
+// 🎓 SmartHub Screen (✅ Correct location from your paste)
+import '../screens/smart_hub_screen.dart';
 
 class AppRoutes {
   // 🌐 Named route constants
@@ -42,6 +45,7 @@ class AppRoutes {
   static const String notifications = '/notifications';
   static const String profile = '/profile';
   static const String aiAssistant = '/ai-assistant';
+  static const String smartHub = '/smart-hub'; // ✅ Added SmartHub route
 
   // 🗺 Route map
   static final Map<String, WidgetBuilder> routes = {
@@ -59,6 +63,7 @@ class AppRoutes {
     share: (context) => const ShareScreen(),
     notifications: (context) => const NotificationsScreen(),
     profile: (context) => const ProfileScreen(),
-    aiAssistant: (context) => const AIScreen(), // ✅ Clean usage now!
+    aiAssistant: (context) => const AIScreen(),
+    smartHub: (context) => const SmartHubScreen(), // ✅ Works with correct path
   };
 }

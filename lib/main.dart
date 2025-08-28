@@ -2,7 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+// 📌 Routes
 import 'routes/app_routes.dart';
+
+// 📌 Services
 import 'services/notification_service.dart';
 import 'services/realtime_listener.dart';
 
@@ -13,8 +17,10 @@ Future<void> main() async {
   await dotenv.load(fileName: "assets/.env");
 
   // Debug logs (remove in production)
-  print("🔐 Supabase URL: ${dotenv.env['SUPABASE_URL']}");
-  print("🔐 Supabase Key: ${dotenv.env['SUPABASE_ANON_KEY']}");
+  if (kDebugMode) {
+    print("🔐 Supabase URL: ${dotenv.env['SUPABASE_URL']}");
+    print("🔐 Supabase Key: ${dotenv.env['SUPABASE_ANON_KEY']}");
+  }
 
   // Initialize Supabase
   await Supabase.initialize(
@@ -26,13 +32,8 @@ Future<void> main() async {
   final notificationService = NotificationService();
   await notificationService.init();
 
-  // Request permissions on mobile platforms
-  if (!kIsWeb) {
-    await notificationService.requestPermissions();
-  } else {
-    // Request browser notification permission on Web
-    await notificationService.requestPermissions();
-  }
+  // Request permissions (mobile & web)
+  await notificationService.requestPermissions();
 
   // Start real-time notifications listener
   startNotificationListener();
@@ -65,12 +66,16 @@ class YuninetApp extends StatelessWidget {
             foregroundColor: Colors.white,
             textStyle: const TextStyle(fontSize: 16),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
           ),
         ),
       ),
+
+      // ✅ Initial route
       initialRoute: AppRoutes.welcome,
+
+      // ✅ Registered routes (including SmartHubScreen)
       routes: AppRoutes.routes,
     );
   }
