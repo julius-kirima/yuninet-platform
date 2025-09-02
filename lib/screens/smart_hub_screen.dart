@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-// 🔹 Import all actual screens that exist
+// 🔹 Import all actual screens
 import 'academics_screen.dart';
 import 'finance_screen.dart';
 import 'administration_screen.dart';
@@ -11,146 +12,140 @@ import 'communication_screen.dart';
 import 'convenience_screen.dart';
 import 'voting_screen.dart';
 
-class SmartHubScreen extends StatelessWidget {
+class SmartHubScreen extends StatefulWidget {
   const SmartHubScreen({super.key});
 
   @override
+  State<SmartHubScreen> createState() => _SmartHubScreenState();
+}
+
+class _SmartHubScreenState extends State<SmartHubScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  final List<_HubItem> hubItems = [
+    _HubItem(
+      title: "Academics",
+      subtitle: "Exam Card, Timetable, Results, Assignments",
+      icon: Icons.school,
+      gradient: [Colors.deepPurple, Colors.deepPurpleAccent],
+      page: const AcademicsScreen(),
+    ),
+    _HubItem(
+      title: "Finance",
+      subtitle: "Fees, eCitizen, Loans, Wallet",
+      icon: Icons.account_balance_wallet,
+      gradient: [Colors.green, Colors.teal],
+      page: const FinanceScreen(),
+    ),
+    _HubItem(
+      title: "Administration",
+      subtitle: "Clearance, Cases, Reporting, Hostel",
+      icon: Icons.admin_panel_settings,
+      gradient: [Colors.blue, Colors.blueAccent],
+      page: const AdministrationScreen(),
+    ),
+    _HubItem(
+      title: "Support & Welfare",
+      subtitle: "Counseling, Clubs, Lost & Found",
+      icon: Icons.favorite,
+      gradient: [Colors.pink, Colors.redAccent],
+      page: const SupportScreen(),
+    ),
+    _HubItem(
+      title: "Academics Upgrade",
+      subtitle: "Materials, Projects, Library",
+      icon: Icons.menu_book,
+      gradient: [Colors.orange, Colors.deepOrange],
+      page: const AcademicsUpgradeScreen(),
+    ),
+    _HubItem(
+      title: "Finance & Opportunities",
+      subtitle: "Scholarships, Jobs, Tracker",
+      icon: Icons.work,
+      gradient: [Colors.teal, Colors.greenAccent],
+      page: const FinanceOpportunitiesScreen(),
+    ),
+    _HubItem(
+      title: "Communication",
+      subtitle: "Announcements, Polls, Tutoring",
+      icon: Icons.campaign,
+      gradient: [Colors.indigo, Colors.indigoAccent],
+      page: const CommunicationScreen(),
+    ),
+    _HubItem(
+      title: "Convenience & Tech",
+      subtitle: "Smart ID, Notifications, Calendar",
+      icon: Icons.smartphone,
+      gradient: [Colors.cyan, Colors.blueGrey],
+      page: const ConvenienceScreen(),
+    ),
+    _HubItem(
+      title: "Voting System",
+      subtitle: "Student Elections & Referendums",
+      icon: Icons.how_to_vote,
+      gradient: [Colors.redAccent, Colors.deepOrange],
+      page: const VotingScreen(),
+    ),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1200))
+      ..forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget _buildAnimatedCard(BuildContext context, int index) {
+    final item = hubItems[index];
+
+    final animation = CurvedAnimation(
+      parent: _controller,
+      curve: Interval(index * 0.1, 1.0, curve: Curves.easeOutBack),
+    );
+
+    return FadeTransition(
+      opacity: animation,
+      child: ScaleTransition(
+        scale: animation,
+        child: _HubCard(item: item),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final List<_HubItem> hubItems = [
-      _HubItem(
-        title: "Academics",
-        subtitle: "Exam Card, Timetable, Results, Assignments",
-        icon: Icons.school,
-        color: Colors.deepPurple,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AcademicsScreen()),
-          );
-        },
-      ),
-      _HubItem(
-        title: "Finance",
-        subtitle: "Fees, eCitizen, Loans, Wallet",
-        icon: Icons.account_balance_wallet,
-        color: Colors.green,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const FinanceScreen()),
-          );
-        },
-      ),
-      _HubItem(
-        title: "Administration",
-        subtitle: "Clearance, Cases, Reporting, Hostel",
-        icon: Icons.admin_panel_settings,
-        color: Colors.blue,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const AdministrationScreen()),
-          );
-        },
-      ),
-      _HubItem(
-        title: "Support & Welfare",
-        subtitle: "Counseling, Clubs, Lost & Found",
-        icon: Icons.favorite,
-        color: Colors.pink,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SupportScreen()),
-          );
-        },
-      ),
-      _HubItem(
-        title: "Academics Upgrade",
-        subtitle: "Materials, Projects, Library",
-        icon: Icons.menu_book,
-        color: Colors.orange,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const AcademicsUpgradeScreen()),
-          );
-        },
-      ),
-      _HubItem(
-        title: "Finance & Opportunities",
-        subtitle: "Scholarships, Jobs, Tracker",
-        icon: Icons.work,
-        color: Colors.teal,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const FinanceOpportunitiesScreen()),
-          );
-        },
-      ),
-      _HubItem(
-        title: "Communication",
-        subtitle: "Announcements, Polls, Tutoring",
-        icon: Icons.campaign,
-        color: Colors.indigo,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const CommunicationScreen()),
-          );
-        },
-      ),
-      _HubItem(
-        title: "Convenience & Tech",
-        subtitle: "Smart ID, Notifications, Calendar",
-        icon: Icons.smartphone,
-        color: Colors.cyan,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ConvenienceScreen()),
-          );
-        },
-      ),
-      _HubItem(
-        title: "Voting System",
-        subtitle: "Student Elections & Referendums",
-        icon: Icons.how_to_vote,
-        color: Colors.redAccent,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const VotingScreen()),
-          );
-        },
-      ),
-    ];
+    final size = MediaQuery.of(context).size;
+
+    // 🔹 Adjust grid aspect ratio responsively
+    double aspectRatio = size.width < 600 ? 0.85 : 1.1;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Smart Hub"),
         centerTitle: true,
-        elevation: 2,
+        elevation: 4,
+        backgroundColor: Colors.blue.shade600,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // 2 cards per row
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 1,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount:
+                size.width < 600 ? 2 : 3, // 2 on phone, 3 on tablets
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: aspectRatio,
           ),
           itemCount: hubItems.length,
-          itemBuilder: (context, index) {
-            final item = hubItems[index];
-            return _HubCard(item: item);
-          },
+          itemBuilder: _buildAnimatedCard,
         ),
       ),
     );
@@ -162,15 +157,15 @@ class _HubItem {
   final String title;
   final String subtitle;
   final IconData icon;
-  final Color color;
-  final VoidCallback onTap;
+  final List<Color> gradient;
+  final Widget page;
 
   _HubItem({
     required this.title,
     required this.subtitle,
     required this.icon,
-    required this.color,
-    required this.onTap,
+    required this.gradient,
+    required this.page,
   });
 }
 
@@ -183,44 +178,58 @@ class _HubCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: item.onTap,
-      borderRadius: BorderRadius.circular(16),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => item.page),
+      ),
+      borderRadius: BorderRadius.circular(18),
       child: Container(
         decoration: BoxDecoration(
-          // ignore: deprecated_member_use
-          color: item.color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: const [
+          gradient: LinearGradient(
+            colors: item.gradient,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              // ignore: deprecated_member_use
+              color: item.gradient.last.withOpacity(0.4),
               blurRadius: 6,
-              offset: Offset(2, 4),
+              offset: const Offset(2, 4),
             ),
           ],
         ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundColor: item.color,
-              radius: 28,
-              child: Icon(item.icon, size: 28, color: Colors.white),
+              // ignore: deprecated_member_use
+              backgroundColor: Colors.white.withOpacity(0.25),
+              radius: 24, // 🔹 smaller
+              child: Icon(item.icon, size: 26, color: Colors.white),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             Text(
               item.title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+                fontSize: 14, // 🔹 smaller font
+                color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 5),
             Text(
               item.subtitle,
-              style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+              style: GoogleFonts.poppins(
+                fontSize: 11,
+                color: Colors.white70,
+              ),
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

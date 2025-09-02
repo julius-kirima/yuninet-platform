@@ -10,32 +10,36 @@ import 'routes/app_routes.dart';
 import 'services/notification_service.dart';
 import 'services/realtime_listener.dart';
 
+// 📌 Screens
+import 'features/ai/screens/ai_screen.dart'; // ✅ Corrected path
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Load environment variables from assets/.env
-  await dotenv.load(fileName: "assets/.env");
+  // ✅ Load environment variables
+  await dotenv.load(fileName: ".env");
 
   // Debug logs (remove in production)
   if (kDebugMode) {
     print("🔐 Supabase URL: ${dotenv.env['SUPABASE_URL']}");
     print("🔐 Supabase Key: ${dotenv.env['SUPABASE_ANON_KEY']}");
+    print("🤖 Gemini API Key Loaded: ${dotenv.env['API_KEY'] != null}");
   }
 
-  // Initialize Supabase
+  // ✅ Initialize Supabase
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
-  // Initialize notification service
+  // ✅ Initialize notification service
   final notificationService = NotificationService();
   await notificationService.init();
 
-  // Request permissions (mobile & web)
+  // ✅ Request permissions (mobile & web)
   await notificationService.requestPermissions();
 
-  // Start real-time notifications listener
+  // ✅ Start real-time notifications listener
   startNotificationListener();
 
   runApp(const YuninetApp());
@@ -75,8 +79,11 @@ class YuninetApp extends StatelessWidget {
       // ✅ Initial route
       initialRoute: AppRoutes.welcome,
 
-      // ✅ Registered routes (including SmartHubScreen)
-      routes: AppRoutes.routes,
+      // ✅ Registered routes (added AI screen too)
+      routes: {
+        ...AppRoutes.routes, // existing routes
+        '/ai': (context) => const AIScreen(), // ✅ AI route
+      },
     );
   }
 }

@@ -39,6 +39,7 @@ dependencies:
 
   # AI & Environment
   flutter_dotenv: ^5.1.0
+  google_generative_ai: ^0.4.3   # ✅ Gemini official SDK
   cupertino_icons: ^1.0.2
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -60,7 +61,7 @@ flutter:
     - assets/images/logo.png
     - assets/icons/icon.png
     - assets/images/default_user.png
-    - assets/.env
+    # ⚠️ Do not put .env here. It should stay at project root, not inside assets.
 
 flutter_launcher_icons:
   android: true

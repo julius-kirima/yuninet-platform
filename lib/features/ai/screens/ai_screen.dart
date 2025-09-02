@@ -27,7 +27,7 @@ class _AIScreenState extends State<AIScreen> {
     _scrollToBottom();
 
     try {
-      final response = await GPTService.sendMessage(userInput);
+      final response = await GeminiService.sendMessage(userInput);
 
       setState(() {
         messages.add({"text": response, "isUser": false});
