@@ -68,5 +68,11 @@ flutter pub get
 
 # Run the app
 flutter run
+
+
+
+
+
+
 📊 Project Stats (Live)
 <p align="center"> <img src="https://img.shields.io/github/repo-size/julius-kirima/yuninet-platform?style=for-the-badge&color=blue"> <img src="https://img.shields.io/github/stars/julius-kirima/yuninet-platform?style=for-the-badge&color=yellow"> <img src="https://img.shields.io/github/forks/julius-kirima/yuninet-platform?style=for-the-badge&color=green"> <img src="https://img.shields.io/github/issues/julius-kirima/yuninet-platform?style=for-the-badge&color=red"> <img src="https://img.shields.io/github/last-commit/julius-kirima/yuninet-platform?style=for-the-badge&color=purple"> </p>
