@@ -239,6 +239,7 @@ class _ChatScreenState extends State<ChatScreen> {
           supabase.storage.from(bucket).getPublicUrl(remotePath);
       String? publicUrl;
 
+      // ignore: unnecessary_type_check
       if (publicUrlResp is String) {
         publicUrl = publicUrlResp;
       } else {
@@ -290,11 +291,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
       Map current = {};
       if (resp != null) {
+        // ignore: unnecessary_type_check
         if (resp is Map && resp.containsKey('reactions')) {
           current = Map<String, dynamic>.from(resp['reactions'] ?? {});
-        } else if (resp is Map) {
+        } else
           current = Map<String, dynamic>.from(resp as Map);
-        }
       }
 
       final List<dynamic> reactors = List<dynamic>.from(current[emoji] ?? []);
