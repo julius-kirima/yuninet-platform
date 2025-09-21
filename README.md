@@ -30,11 +30,11 @@ Yuninet is a **Flutter-based platform** that enables students to:
 ## 🛠 Tech Stack  
 
 <p align="center">
-  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white"></a>
-  <a href="https://dart.dev/"><img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white"></a>
-  <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"></a>
-  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/Postgres-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"></a>
-  <a href="https://firebase.google.com/"><img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"></a>
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter"></a>
+  <a href="https://dart.dev/"><img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart"></a>
+  <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase"></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/Postgres-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="Postgres"></a>
+  <a href="https://firebase.google.com/"><img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase"></a>
 </p>  
 
 ---
@@ -48,7 +48,7 @@ Founder & CEO, Yuninet Platform
 
 > *"I'm not just building an app — I'm building a future where students lead with technology."*  
 
-
+---
 
 ## 🔧 Developer Collaboration  
 
@@ -68,28 +68,15 @@ flutter pub get
 
 # Run the app
 flutter run
+📊 Project Stats (Live)
+<p align="center"> <a href="https://github.com/julius-kirima/yuninet-platform"> <img src="https://img.shields.io/github/repo-size/julius-kirima/yuninet-platform?style=for-the-badge&color=blue" alt="Repo Size"/> </a> <a href="https://github.com/julius-kirima/yuninet-platform/stargazers"> <img src="https://img.shields.io/github/stars/julius-kirima/yuninet-platform?style=for-the-badge&color=yellow" alt="Stars"/> </a> <a href="https://github.com/julius-kirima/yuninet-platform/forks"> <img src="https://img.shields.io/github/forks/julius-kirima/yuninet-platform?style=for-the-badge&color=green" alt="Forks"/> </a> <a href="https://github.com/julius-kirima/yuninet-platform/issues"> <img src="https://img.shields.io/github/issues/julius-kirima/yuninet-platform?style=for-the-badge&color=red" alt="Issues"/> </a> <a href="https://github.com/julius-kirima/yuninet-platform/commits/main"> <img src="https://img.shields.io/github/last-commit/julius-kirima/yuninet-platform?style=for-the-badge&color=purple" alt="Last Commit"/> </a> </p>
+🌟 Contribution Guidelines
+We welcome contributions from developers, designers, and students who want to build the future of academic networking.
 
+Fork the repo
 
+Create a feature branch (git checkout -b feature-name)
 
+Commit changes (git commit -m "Added feature X")
 
-## 📊 Project Stats (Live)
-
-<p align="center">
-  <a href="https://github.com/julius-kirima/yuninet-platform">
-    <img src="https://img.shields.io/github/repo-size/julius-kirima/yuninet-platform?style=for-the-badge&color=blue" alt="Repo Size"/>
-  </a>
-  <a href="https://github.com/julius-kirima/yuninet-platform/stargazers">
-    <img src="https://img.shields.io/github/stars/julius-kirima/yuninet-platform?style=for-the-badge&color=yellow" alt="Stars"/>
-  </a>
-  <a href="https://github.com/julius-kirima/yuninet-platform/forks">
-    <img src="https://img.shields.io/github/forks/julius-kirima/yuninet-platform?style=for-the-badge&color=green" alt="Forks"/>
-  </a>
-  <a href="https://github.com/julius-kirima/yuninet-platform/issues">
-    <img src="https://img.shields.io/github/issues/julius-kirima/yuninet-platform?style=for-the-badge&color=red" alt="Issues"/>
-  </a>
-  <a href="https://github.com/julius-kirima/yuninet-platform/commits/main">
-    <img src="https://img.shields.io/github/last-commit/julius-kirima/yuninet-platform?style=for-the-badge&color=purple" alt="Last Commit"/>
-  </a>
-</p>
-
-
+Push and create a PR
