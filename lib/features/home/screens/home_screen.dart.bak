@@ -403,41 +403,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // ---------------- REAL-TIME ----------------
   void _subscribeToRealTime() {
-    void fetchCallback(PostgresChangePayload event) => _fetchPosts();
-
+    // Likes channel
     _likesChannel = supabase.channel('likes_channel')
       ..onPostgresChanges(
         table: 'likes',
         schema: 'public',
-        event: PostgresChangeEvent.all,
-        callback: fetchCallback,
+        event: '*',
+        callback: (PostgresChangeEvent event) => _fetchPosts(),
       )
       ..subscribe();
 
+    // Follows channel
     _followsChannel = supabase.channel('follows_channel')
       ..onPostgresChanges(
         table: 'follows',
         schema: 'public',
-        event: PostgresChangeEvent.all,
-        callback: fetchCallback,
+        event: '*',
+        callback: (PostgresChangeEvent event) => _fetchPosts(),
       )
       ..subscribe();
 
+    // Comments channel
     _commentsChannel = supabase.channel('comments_channel')
       ..onPostgresChanges(
         table: 'comments',
         schema: 'public',
-        event: PostgresChangeEvent.all,
-        callback: fetchCallback,
+        event: '*',
+        callback: (PostgresChangeEvent event) => _fetchPosts(),
       )
       ..subscribe();
 
+    // Posts visibility channel
     _visibilityChannel = supabase.channel('posts_channel')
       ..onPostgresChanges(
         table: 'posts',
         schema: 'public',
-        event: PostgresChangeEvent.all,
-        callback: fetchCallback,
+        event: '*',
+        callback: (PostgresChangeEvent event) => _fetchPosts(),
       )
       ..subscribe();
   }

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'account/account_settings.dart';
 import 'privacy/privacy_settings.dart';
 import 'notifications/notification_settings.dart';
 import 'analytics/analytics_screen.dart';
 import 'about/about_yuninet_screen.dart';
 import 'widgets/setting_tile.dart';
+import '../../routes/app_routes.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
+
+  SupabaseClient get _supabase => Supabase.instance.client;
 
   void _navigate(BuildContext context, Widget screen) {
     Navigator.push(
@@ -16,9 +20,8 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _logout(BuildContext context) {
-    // TODO: Replace with Supabase or auth logout logic
-    showDialog(
+  Future<void> _logout(BuildContext context) async {
+    final confirm = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
         title: const Text("Log Out"),
@@ -26,21 +29,37 @@ class SettingsScreen extends StatelessWidget {
         actions: [
           TextButton(
             child: const Text("Cancel"),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(context, false),
           ),
           TextButton(
             child: const Text("Log Out"),
-            onPressed: () {
-              Navigator.pop(context);
-              // Add logout logic here
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Logged out")),
-              );
-            },
+            onPressed: () => Navigator.pop(context, true),
           ),
         ],
       ),
     );
+
+    if (confirm == true) {
+      try {
+        await _supabase.auth.signOut();
+
+        if (context.mounted) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.login,
+            (route) => false,
+          );
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Logged out successfully")),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error during logout: $e")),
+        );
+      }
+    }
   }
 
   @override

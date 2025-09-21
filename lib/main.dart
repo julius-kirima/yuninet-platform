@@ -11,7 +11,10 @@ import 'services/notification_service.dart';
 import 'services/realtime_listener.dart';
 
 // 📌 Screens
-import 'features/ai/screens/ai_screen.dart'; // ✅ Corrected path
+import 'features/ai/screens/ai_screen.dart';
+import 'screens/settings/account/change_email_screen.dart';
+import 'screens/settings/account/change_phone_screen.dart';
+import 'screens/settings/account/two_factor_setup_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,10 +82,17 @@ class YuninetApp extends StatelessWidget {
       // ✅ Initial route
       initialRoute: AppRoutes.welcome,
 
-      // ✅ Registered routes (added AI screen too)
+      // ✅ Registered routes
       routes: {
         ...AppRoutes.routes, // existing routes
-        '/ai': (context) => const AIScreen(), // ✅ AI route
+
+        // Extra screens for account settings
+        AppRoutes.changeEmail: (context) => const ChangeEmailScreen(),
+        AppRoutes.changePhone: (context) => const ChangePhoneScreen(),
+        AppRoutes.twoFactorSetup: (context) => const TwoFactorSetupScreen(),
+
+        // AI route
+        '/ai': (context) => const AIScreen(),
       },
     );
   }

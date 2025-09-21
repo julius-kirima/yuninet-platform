@@ -25,8 +25,13 @@ import '../screens/profile/profile_screen.dart';
 // 🤖 AI Assistant Screen
 import '../features/ai/screens/ai_screen.dart';
 
-// 🎓 SmartHub Screen (✅ Correct location from your paste)
+// 🎓 SmartHub Screen
 import '../screens/smart_hub_screen.dart';
+
+// ⚙️ Account Settings Screens
+import '../screens/settings/account/change_email_screen.dart';
+import '../screens/settings/account/change_phone_screen.dart';
+import '../screens/settings/account/two_factor_setup_screen.dart';
 
 class AppRoutes {
   // 🌐 Named route constants
@@ -45,7 +50,12 @@ class AppRoutes {
   static const String notifications = '/notifications';
   static const String profile = '/profile';
   static const String aiAssistant = '/ai-assistant';
-  static const String smartHub = '/smart-hub'; // ✅ Added SmartHub route
+  static const String smartHub = '/smart-hub';
+
+  // ⚙️ Account Settings Routes
+  static const String changeEmail = '/change-email';
+  static const String changePhone = '/change-phone';
+  static const String twoFactorSetup = '/two-factor-setup';
 
   // 🗺 Route map
   static final Map<String, WidgetBuilder> routes = {
@@ -64,6 +74,11 @@ class AppRoutes {
     notifications: (context) => const NotificationsScreen(),
     profile: (context) => const ProfileScreen(),
     aiAssistant: (context) => const AIScreen(),
-    smartHub: (context) => const SmartHubScreen(), // ✅ Works with correct path
+    smartHub: (context) => const SmartHubScreen(),
+
+    // ⚙️ Account Settings
+    changeEmail: (context) => const ChangeEmailScreen(),
+    changePhone: (context) => const ChangePhoneScreen(),
+    twoFactorSetup: (context) => const TwoFactorSetupScreen(),
   };
 }

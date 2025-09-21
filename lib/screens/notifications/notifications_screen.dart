@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:yuninet_app/routes/app_routes.dart';
 
 /// Model class for notifications
 class AppNotification {
   final int id;
-  final String type; // like, comment, share, follow, unfollow
+  final String type; // like, comment, share, follow, unfollow, post, profile
   final String title;
   final String body;
   final DateTime createdAt;
+  final String? targetId; // ✅ added for navigation
 
   AppNotification({
     required this.id,
@@ -16,6 +18,7 @@ class AppNotification {
     required this.title,
     required this.body,
     required this.createdAt,
+    this.targetId,
   });
 
   factory AppNotification.fromMap(Map<String, dynamic> map) {
@@ -25,6 +28,7 @@ class AppNotification {
       title: map['title'] ?? '',
       body: map['body'] ?? '',
       createdAt: DateTime.parse(map['created_at']),
+      targetId: map['target_id']?.toString(),
     );
   }
 
@@ -40,6 +44,10 @@ class AppNotification {
         return Icons.person_add;
       case 'unfollow':
         return Icons.person_remove;
+      case 'post':
+        return Icons.article;
+      case 'profile':
+        return Icons.person;
       default:
         return Icons.notifications;
     }
@@ -124,6 +132,55 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return _userPreferences[type] ?? true;
   }
 
+  /// ✅ Handle navigation based on type
+  void _handleNotificationTap(AppNotification notif) {
+    switch (notif.type) {
+      case 'post':
+        if (notif.targetId != null) {
+          Navigator.pushNamed(
+            context,
+            AppRoutes.postDetail,
+            arguments: notif.targetId,
+          );
+        }
+        break;
+
+      case 'comment':
+        if (notif.targetId != null) {
+          Navigator.pushNamed(
+            context,
+            AppRoutes.comments,
+            arguments: notif.targetId,
+          );
+        }
+        break;
+
+      case 'profile':
+      case 'follow':
+      case 'unfollow':
+        if (notif.targetId != null) {
+          Navigator.pushNamed(
+            context,
+            AppRoutes.profile,
+            arguments: notif.targetId,
+          );
+        }
+        break;
+
+      case 'chat':
+        // You can add your chat route here
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Chat screen not yet implemented")),
+        );
+        break;
+
+      default:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Unknown notification type: ${notif.type}")),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_loadingPrefs) {
@@ -191,11 +248,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text("${notif.body} • ${notif.timeAgo}"),
-                onTap: () {
-                  debugPrint(
-                      "Tapped notification ${notif.id} of type ${notif.type}");
-                  // TODO: navigate based on type (post, profile, etc.)
-                },
+                onTap: () => _handleNotificationTap(notif),
               );
             },
           );

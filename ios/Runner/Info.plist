@@ -50,6 +50,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Needed to save images/videos</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Needed to save images/videos</string>
 
 	<!-- Supabase / Google Sign-In Redirect URL -->
 	<key>CFBundleURLTypes</key>
@@ -60,6 +64,10 @@
 				<string>com.googleusercontent.apps.430590487732-68eq6kg3a2cqltu4ohioeslm0edakiid</string>
 			</array>
 		</dict>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Needed to save images/videos</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Needed to save images/videos</string>
 	</array>
 
 	<key>CADisableMinimumFrameDurationOnPhone</key>
@@ -67,4 +75,8 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 </dict>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Needed to save images/videos</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Needed to save images/videos</string>
 </plist>
