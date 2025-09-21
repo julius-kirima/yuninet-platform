@@ -155,9 +155,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: Icons.message,
                   label: 'Message',
                   onPressed: () {
+                    // Pass required chatId and userId
+                    final chatId = "chat_${userId}_admin"; // example chatId
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const ChatScreen()),
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            ChatScreen(chatId: chatId, userId: userId),
+                      ),
                     );
                   },
                 ),
