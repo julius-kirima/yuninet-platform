@@ -67,7 +67,8 @@ cd yuninet-platform
 flutter pub get
 
 # Run the app
-flutter run
+flutter run'''
+
 📊 Project Stats (Live)
 <p align="center"> <a href="https://github.com/julius-kirima/yuninet-platform"> <img src="https://img.shields.io/github/repo-size/julius-kirima/yuninet-platform?style=for-the-badge&color=blue" alt="Repo Size"/> </a> <a href="https://github.com/julius-kirima/yuninet-platform/stargazers"> <img src="https://img.shields.io/github/stars/julius-kirima/yuninet-platform?style=for-the-badge&color=yellow" alt="Stars"/> </a> <a href="https://github.com/julius-kirima/yuninet-platform/forks"> <img src="https://img.shields.io/github/forks/julius-kirima/yuninet-platform?style=for-the-badge&color=green" alt="Forks"/> </a> <a href="https://github.com/julius-kirima/yuninet-platform/issues"> <img src="https://img.shields.io/github/issues/julius-kirima/yuninet-platform?style=for-the-badge&color=red" alt="Issues"/> </a> <a href="https://github.com/julius-kirima/yuninet-platform/commits/main"> <img src="https://img.shields.io/github/last-commit/julius-kirima/yuninet-platform?style=for-the-badge&color=purple" alt="Last Commit"/> </a> </p>
 🌟 Contribution Guidelines
