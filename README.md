@@ -75,8 +75,14 @@ We welcome contributions from developers, designers, and students who want to bu
 
 Fork the repo
 
-Create a feature branch (git checkout -b feature-name)
+Create a feature branch:
 
-Commit changes (git commit -m "Added feature X")
+bash
+Copy code
+git checkout -b feature-name
+Commit changes:
 
-Push and create a PR
+bash
+Copy code
+git commit -m "Added feature X"
+Push and create a Pull Request
